@@ -116,18 +116,20 @@ form.addEventListener("submit", function (e) {
         return accumulator;
     }, {});
 
-    const { rate, price, group } = inputs;
+    const { rate, price, group, description } = inputs;
 
     if (isNaN(rate) || rate < 1 || rate > 10) return alert("请输入有效的星級");
     if (!validation(price) || !validation(group)) {
         return alert("请输入有效的数字");
     }
+    if (description.length > 100) return alert("文字不可超过 100");
 
     data.push({ ...inputs, area: inputs.viewpoint, id: data.length - 1 });
     render(data);
 
-    this.reset();
-    console.log(this);
+    // this.reset();
+    console.log([...this.elements]);
+    this["price"].value = "";
 });
 
 const init = () => render(data);
