@@ -49,7 +49,7 @@ const render = (data) => {
         <li class="relative bg-white grid grid-rows-[auto,1fr]">
             <img
                 src=${imgUrl}
-                alt="綠島自由行套裝行程"
+                alt=${name}
                 class="h-[180px] w-full object-cover"
             />
             <div class="relative grid grid-rows-[1fr,auto]  px-5 pt-5 pb-[14px]">
@@ -107,6 +107,7 @@ const validation = (input) => {
 form.addEventListener("submit", function (e) {
     e.preventDefault();
     const formData = new FormData(this);
+    console.log(formData);
     const mapFormData = [...formData];
     if (mapFormData.length !== 7) return alert("请填写全部内容");
     const inputs = mapFormData.reduce((accumulator, current) => {
@@ -124,6 +125,9 @@ form.addEventListener("submit", function (e) {
 
     data.push({ ...inputs, area: inputs.viewpoint, id: data.length - 1 });
     render(data);
+
+    this.reset();
+    console.log(this);
 });
 
 const init = () => render(data);
