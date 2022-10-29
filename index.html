@@ -27,7 +27,7 @@
                     />
                     <img src="./images/logo.png" alt="logo" class="w-full" />
                 </div>
-                <form>
+                <form id="form">
                     <h2
                         class="mb-8 border-b-[3px] border-primary pb-1 text-center text-[1.5rem] font-bold text-primary"
                     >
@@ -43,7 +43,8 @@
                             </label>
                             <input
                                 type="text"
-                                id="ticket-name"
+                                id="name"
+                                name="name"
                                 class="w-full border-b border-primary bg-[#fafafa] py-2 pl-3 placeholder-[#818A91] outline-none"
                                 placeholder="請填寫套票名稱"
                             />
@@ -57,6 +58,7 @@
                             </label>
                             <input
                                 type="text"
+                                name="imgUrl"
                                 class="w-full border-b border-primary bg-[#fafafa] py-2 pl-3 placeholder-dark-grey outline-none"
                                 placeholder="請填寫圖片網址"
                                 id="imgUrl"
@@ -74,12 +76,17 @@
                                 id="viewpoint"
                                 class="w-full bg-[#fafafa] py-2 pl-3 text-dark-grey"
                             >
-                                <option class="">景點地區</option>
+                                <option selected hidden disabled>
+                                    景點地區
+                                </option>
+                                <option value="高雄">高雄</option>
+                                <option value="台中">台中</option>
+                                <option value="台北">台北</option>
                             </select>
                         </div>
                         <div class="flex items-center gap-[30px]">
                             <label
-                                for="ticket-price"
+                                for="price"
                                 class="shrink-0 font-medium text-primary"
                             >
                                 套票金額
@@ -88,12 +95,13 @@
                                 type="tel"
                                 class="w-full border-b border-primary bg-[#fafafa] py-2 pl-3 placeholder-dark-grey outline-none"
                                 placeholder="請填寫套票金額"
-                                id="ticket-price"
+                                id="price"
+                                name="price"
                             />
                         </div>
                         <div class="flex items-center gap-[30px]">
                             <label
-                                for="ticket-group"
+                                for="group"
                                 class="shrink-0 font-medium text-primary"
                             >
                                 套票組數
@@ -102,12 +110,13 @@
                                 type="tel"
                                 class="w-full border-b border-primary bg-[#fafafa] py-2 pl-3 placeholder-dark-grey outline-none"
                                 placeholder="請填寫套票組數"
-                                id="ticket-group"
+                                id="group"
+                                name="group"
                             />
                         </div>
                         <div class="flex items-center gap-[30px]">
                             <label
-                                for="ticket-level"
+                                for="rate"
                                 class="shrink-0 font-medium text-primary"
                             >
                                 套票星級
@@ -116,12 +125,13 @@
                                 type="tel"
                                 class="w-full border-b border-primary bg-[#fafafa] py-2 pl-3 placeholder-dark-grey outline-none"
                                 placeholder="請填寫套票星級"
-                                id="ticket-level"
+                                id="rate"
+                                name="rate"
                             />
                         </div>
                         <div class="flex items-center gap-[30px]">
                             <label
-                                for="ticket-description"
+                                for="description"
                                 class="shrink-0 font-medium text-primary"
                             >
                                 套票描述
@@ -129,7 +139,8 @@
                             <textarea
                                 class="w-full resize-none border-b border-primary bg-[#fafafa] py-2 pl-3 placeholder-dark-grey outline-none"
                                 placeholder="請填寫套票描述（限 100 字）"
-                                id="ticket-description"
+                                id="description"
+                                name="description"
                             >
                             </textarea>
                         </div>
@@ -169,196 +180,6 @@
                     id="area-list"
                 >
                     <!-- <li class="relative bg-white">
-                        <img
-                            src="./images/travel_1.png"
-                            alt="綠島自由行套裝行程"
-                            class="h-[180px] w-full object-cover"
-                        />
-                        <div class="relative space-y-5 px-5 pt-5 pb-[14px]">
-                            <span
-                                class="absolute top-0 left-0 -translate-y-1/2 bg-primary py-[5px] px-2 text-white"
-                            >
-                                8.6
-                            </span>
-                            <h2
-                                class="border-b-2 border-primary text-[1.5rem] font-medium text-primary"
-                            >
-                                綠島自由行套裝行程
-                            </h2>
-                            <p class="text-dark-grey">
-                                嚴選超高CP值綠島自由行套裝行程，多種綠島套裝組合，提供台東綠島來回船票、綠島環島機車、綠島民宿住宿，行程加贈『綠島浮潛體驗』以及『綠島生態導覽』，讓你用輕鬆的綠島套裝自由行，也能深度認識綠島在地文化。
-                            </p>
-                            <div class="flex items-center justify-between">
-                                <p class="font-medium text-primary">
-                                    剩下最後 8 組
-                                </p>
-                                <p
-                                    class="flex items-center gap-1 font-medium text-primary"
-                                >
-                                    <span>TWD</span>
-                                    <span class="text-[2rem]"> $1,280 </span>
-                                </p>
-                            </div>
-                        </div>
-                        <span
-                            class="absolute -top-2 left-0 bg-accent py-2 px-5 text-[1.25rem] text-white"
-                        >
-                            台北
-                        </span>
-                    </li>
-                    <li class="relative bg-white">
-                        <img
-                            src="./images/travel_1.png"
-                            alt="綠島自由行套裝行程"
-                            class="h-[180px] w-full object-cover"
-                        />
-                        <div class="relative space-y-5 px-5 pt-5 pb-[14px]">
-                            <span
-                                class="absolute top-0 left-0 -translate-y-1/2 bg-primary py-[5px] px-2 text-white"
-                            >
-                                8.6
-                            </span>
-                            <h2
-                                class="border-b-2 border-primary text-[1.5rem] font-medium text-primary"
-                            >
-                                綠島自由行套裝行程
-                            </h2>
-                            <p class="text-dark-grey">
-                                嚴選超高CP值綠島自由行套裝行程，多種綠島套裝組合，提供台東綠島來回船票、綠島環島機車、綠島民宿住宿，行程加贈『綠島浮潛體驗』以及『綠島生態導覽』，讓你用輕鬆的綠島套裝自由行，也能深度認識綠島在地文化。
-                            </p>
-                            <div class="flex items-center justify-between">
-                                <p class="font-medium text-primary">
-                                    剩下最後 8 組
-                                </p>
-                                <p
-                                    class="flex items-center gap-1 font-medium text-primary"
-                                >
-                                    <span>TWD</span>
-                                    <span class="text-[2rem]"> $1,280 </span>
-                                </p>
-                            </div>
-                        </div>
-                        <span
-                            class="absolute -top-2 left-0 bg-accent py-2 px-5 text-[1.25rem] text-white"
-                        >
-                            台北
-                        </span>
-                    </li>
-                    <li class="relative bg-white">
-                        <img
-                            src="./images/travel_1.png"
-                            alt="綠島自由行套裝行程"
-                            class="h-[180px] w-full object-cover"
-                        />
-                        <div class="relative space-y-5 px-5 pt-5 pb-[14px]">
-                            <span
-                                class="absolute top-0 left-0 -translate-y-1/2 bg-primary py-[5px] px-2 text-white"
-                            >
-                                8.6
-                            </span>
-                            <h2
-                                class="border-b-2 border-primary text-[1.5rem] font-medium text-primary"
-                            >
-                                綠島自由行套裝行程
-                            </h2>
-                            <p class="text-dark-grey">
-                                嚴選超高CP值綠島自由行套裝行程，多種綠島套裝組合，提供台東綠島來回船票、綠島環島機車、綠島民宿住宿，行程加贈『綠島浮潛體驗』以及『綠島生態導覽』，讓你用輕鬆的綠島套裝自由行，也能深度認識綠島在地文化。
-                            </p>
-                            <div class="flex items-center justify-between">
-                                <p class="font-medium text-primary">
-                                    剩下最後 8 組
-                                </p>
-                                <p
-                                    class="flex items-center gap-1 font-medium text-primary"
-                                >
-                                    <span>TWD</span>
-                                    <span class="text-[2rem]"> $1,280 </span>
-                                </p>
-                            </div>
-                        </div>
-                        <span
-                            class="absolute -top-2 left-0 bg-accent py-2 px-5 text-[1.25rem] text-white"
-                        >
-                            台北
-                        </span>
-                    </li>
-                    <li class="relative bg-white">
-                        <img
-                            src="./images/travel_1.png"
-                            alt="綠島自由行套裝行程"
-                            class="h-[180px] w-full object-cover"
-                        />
-                        <div class="relative space-y-5 px-5 pt-5 pb-[14px]">
-                            <span
-                                class="absolute top-0 left-0 -translate-y-1/2 bg-primary py-[5px] px-2 text-white"
-                            >
-                                8.6
-                            </span>
-                            <h2
-                                class="border-b-2 border-primary text-[1.5rem] font-medium text-primary"
-                            >
-                                綠島自由行套裝行程
-                            </h2>
-                            <p class="text-dark-grey">
-                                嚴選超高CP值綠島自由行套裝行程，多種綠島套裝組合，提供台東綠島來回船票、綠島環島機車、綠島民宿住宿，行程加贈『綠島浮潛體驗』以及『綠島生態導覽』，讓你用輕鬆的綠島套裝自由行，也能深度認識綠島在地文化。
-                            </p>
-                            <div class="flex items-center justify-between">
-                                <p class="font-medium text-primary">
-                                    剩下最後 8 組
-                                </p>
-                                <p
-                                    class="flex items-center gap-1 font-medium text-primary"
-                                >
-                                    <span>TWD</span>
-                                    <span class="text-[2rem]"> $1,280 </span>
-                                </p>
-                            </div>
-                        </div>
-                        <span
-                            class="absolute -top-2 left-0 bg-accent py-2 px-5 text-[1.25rem] text-white"
-                        >
-                            台北
-                        </span>
-                    </li>
-                    <li class="relative bg-white">
-                        <img
-                            src="./images/travel_1.png"
-                            alt="綠島自由行套裝行程"
-                            class="h-[180px] w-full object-cover"
-                        />
-                        <div class="relative space-y-5 px-5 pt-5 pb-[14px]">
-                            <span
-                                class="absolute top-0 left-0 -translate-y-1/2 bg-primary py-[5px] px-2 text-white"
-                            >
-                                8.6
-                            </span>
-                            <h2
-                                class="border-b-2 border-primary text-[1.5rem] font-medium text-primary"
-                            >
-                                綠島自由行套裝行程
-                            </h2>
-                            <p class="text-dark-grey">
-                                嚴選超高CP值綠島自由行套裝行程，多種綠島套裝組合，提供台東綠島來回船票、綠島環島機車、綠島民宿住宿，行程加贈『綠島浮潛體驗』以及『綠島生態導覽』，讓你用輕鬆的綠島套裝自由行，也能深度認識綠島在地文化。
-                            </p>
-                            <div class="flex items-center justify-between">
-                                <p class="font-medium text-primary">
-                                    剩下最後 8 組
-                                </p>
-                                <p
-                                    class="flex items-center gap-1 font-medium text-primary"
-                                >
-                                    <span>TWD</span>
-                                    <span class="text-[2rem]"> $1,280 </span>
-                                </p>
-                            </div>
-                        </div>
-                        <span
-                            class="absolute -top-2 left-0 bg-accent py-2 px-5 text-[1.25rem] text-white"
-                        >
-                            台北
-                        </span>
-                    </li>
-                    <li class="relative bg-white">
                         <img
                             src="./images/travel_1.png"
                             alt="綠島自由行套裝行程"

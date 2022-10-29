@@ -42,17 +42,17 @@ const render = (data) => {
 
     const htmlList = data
         .map((item) => {
-            const { name, imgUrl, area, description, group, price, rate } =
+            const { name, imgUrl, description, group, price, rate, area } =
                 item;
 
             return `
-        <li class="relative bg-white flex flex-col">
+        <li class="relative bg-white grid grid-rows-[auto,1fr]">
             <img
                 src=${imgUrl}
                 alt="綠島自由行套裝行程"
                 class="h-[180px] w-full object-cover"
             />
-            <div class="relative flex flex-col grow gap-5 px-5 pt-5 pb-[14px]">
+            <div class="relative grid grid-rows-[1fr,auto]  px-5 pt-5 pb-[14px]">
                 <span
                     class="absolute top-0 left-0 -translate-y-1/2 bg-primary py-[5px] px-2 text-white"
                 >
@@ -60,7 +60,7 @@ const render = (data) => {
                 </span>
                 <div>
                     <h2
-                        class="border-b-2 border-primary text-[1.5rem] font-medium text-primary"
+                        class="border-b-2 border-primary text-[1.5rem] font-medium text-primary mb-4"
                     >
                         ${name}
                     </h2>
@@ -100,4 +100,31 @@ area.addEventListener("change", (e) => {
     render(data.filter((item) => item.area === value));
 });
 
-render(data);
+const validation = (input) => {
+    return input.match(/\D/g) ? false : true;
+};
+
+form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+    const mapFormData = [...formData];
+    if (mapFormData.length !== 7) return alert("请填写全部内容");
+    const inputs = mapFormData.reduce((accumulator, current) => {
+        const [key, val] = current;
+        accumulator[key] = val.trim();
+        return accumulator;
+    }, {});
+
+    const { rate, price, group } = inputs;
+
+    if (isNaN(rate) || rate < 1 || rate > 10) return alert("请输入有效的星級");
+    if (!validation(price) || !validation(group)) {
+        return alert("请输入有效的数字");
+    }
+
+    data.push({ ...inputs, area: inputs.viewpoint, id: data.length - 1 });
+    render(data);
+});
+
+const init = () => render(data);
+init();
