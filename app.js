@@ -132,9 +132,7 @@ let data = [
 //     this["price"].value = "";
 // });
 
-// const init = () => render(data);
-// init();
-
+//render(data);
 class App {
     #form = document.querySelector("#form");
     #areaList = document.querySelector("#area-list");
@@ -174,7 +172,6 @@ class App {
             id: data.length - 1,
         });
         this.#render(this.#data);
-
         this.#form.reset();
     }
 
