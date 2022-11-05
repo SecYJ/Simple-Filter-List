@@ -43,8 +43,7 @@ const render = (data) => {
 
     const htmlList = data
         .map((item) => {
-            const { name, imgUrl, description, group, price, rate, area } =
-                item;
+            const { name, imgUrl, description, group, price, rate, area } = item;
 
             return `
         <li class="relative bg-white grid grid-rows-[auto,1fr]">
