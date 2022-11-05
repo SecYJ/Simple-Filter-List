@@ -36,14 +36,14 @@
 const area = document.querySelector("#area");
 const areaList = document.querySelector("#area-list");
 const form = document.querySelector("#form");
-let data = [];
 
 const render = (data) => {
     areaList.innerHTML = "";
 
     const htmlList = data
         .map((item) => {
-            const { name, imgUrl, description, group, price, rate, area } = item;
+            const { name, imgUrl, description, group, price, rate, area } =
+                item;
 
             return `
         <li class="relative bg-white grid grid-rows-[auto,1fr]">
@@ -102,7 +102,7 @@ const fetchData = async () => {
     render(data);
 };
 
-fetchData();
+fetchData(); // 开始 fetch 资料
 
 area.addEventListener("change", (e) => {
     const { value } = e.target;
@@ -111,13 +111,12 @@ area.addEventListener("change", (e) => {
 });
 
 const validation = (input) => {
-    return input.match(/\D/g) ? false : true;
+    return input.match(/\D/g) || input === "" ? false : true;
 };
 
 form.addEventListener("submit", function (e) {
     e.preventDefault();
-    const formData = new FormData(this);
-    const mapFormData = [...formData];
+    const mapFormData = [...new FormData(this)];
     if (mapFormData.length !== 7) return alert("请填写全部内容");
     const inputs = mapFormData.reduce((accumulator, current) => {
         const [key, val] = current;
@@ -127,36 +126,45 @@ form.addEventListener("submit", function (e) {
 
     const { rate, price, group, description } = inputs;
 
-    if (isNaN(rate) || rate < 1 || rate > 10) return alert("请输入有效的星級");
-    if (!validation(price) || !validation(group)) {
+    if (!viewpoint) {
+        return alert("请选择地区");
+    } else if (isNaN(rate) || rate < 1 || rate > 10) {
+        return alert("请输入有效的星級");
+    } else if (!validation(price) || !validation(group)) {
         return alert("请输入有效的数字");
+    } else if (description.length > 100) {
+        return alert("文字不可超过 100");
     }
-    if (description.length > 100) return alert("文字不可超过 100");
 
     data.push({ ...inputs, area: inputs.viewpoint, id: data.length - 1 });
     render(data);
-
     this.reset();
 });
 
-//render(data);
 // class App {
 //     #form = document.querySelector("#form");
 //     #areaList = document.querySelector("#area-list");
 //     #area = document.querySelector("#area");
+//     #url =
+//         "https://raw.githubusercontent.com/hexschool/js-training/main/travelApi.json";
 //     #data = [];
 
-//     constructor(data) {
-//         this.#data = [...data];
+//     constructor() {
+//         this.#fetchData();
 //         this.#form.addEventListener("submit", this.#formSubmit.bind(this));
 //         this.#area.addEventListener("change", this.#areaChange.bind(this));
+//     }
+
+//     async #fetchData() {
+//         const res = await axios.get(this.#url);
+//         this.#data = [...res.data.data];
 //         this.#render(this.#data);
 //     }
 
 //     #formSubmit(e) {
 //         e.preventDefault();
-//         const formData = new FormData(this.#form);
-//         const mapFormData = [...formData];
+//         const mapFormData = [...new FormData(this.#form)];
+//         if (mapFormData.length !== 7) return alert("请填写全部内容");
 //         const inputs = mapFormData.reduce((accumulator, current) => {
 //             const [key, val] = current;
 //             accumulator[key] = val.trim();
@@ -164,19 +172,20 @@ form.addEventListener("submit", function (e) {
 //         }, {});
 //         const { rate, price, group, description, viewpoint } = inputs;
 
-//         if (!viewpoint) return alert("请选择地区");
-//         if (mapFormData.length !== 7) return alert("请填写全部内容");
-//         if (isNaN(rate) || rate < 1 || rate > 10)
+//         if (!viewpoint) {
+//             return alert("请选择地区");
+//         } else if (isNaN(rate) || rate < 1 || rate > 10) {
 //             return alert("请输入有效的星級");
-//         if (!this.#validation(price) || !this.#validation(group)) {
+//         } else if (!this.#validation(price) || !this.#validation(group)) {
 //             return alert("请输入有效的数字");
+//         } else if (description.length > 100) {
+//             return alert("文字不可超过 100");
 //         }
-//         if (description.length > 100) return alert("文字不可超过 100");
 
 //         this.#data.push({
 //             ...inputs,
 //             area: inputs.viewpoint,
-//             id: data.length - 1,
+//             id: this.#data.length - 1,
 //         });
 //         this.#render(this.#data);
 //         this.#form.reset();
@@ -189,7 +198,7 @@ form.addEventListener("submit", function (e) {
 //     }
 
 //     #validation(input) {
-//         return input.match(/\D/g) ? false : true;
+//         return input.match(/\D/g) || input === "" ? false : true;
 //     }
 
 //     #mapHTML(data) {
@@ -199,45 +208,45 @@ form.addEventListener("submit", function (e) {
 //                     item;
 
 //                 return `
-//     <li class="relative bg-white grid grid-rows-[auto,1fr]">
-//         <img
-//             src=${imgUrl}
-//             alt=${name}
-//             class="h-[180px] w-full object-cover"
-//         />
-//         <div class="relative grid grid-rows-[1fr,auto]  px-5 pt-5 pb-[14px]">
-//             <span
-//                 class="absolute top-0 left-0 -translate-y-1/2 bg-primary py-[5px] px-2 text-white"
-//             >
-//                 ${rate}
-//             </span>
-//             <div>
-//                 <h2
-//                     class="border-b-2 border-primary text-[1.5rem] font-medium text-primary mb-4"
-//                 >
-//                     ${name}
-//                 </h2>
-//                 <p class="text-dark-grey">${description}</p>
-//             </div>
-//             <div class="flex items-center justify-between">
-//                 <p class="font-medium text-primary">
-//                     剩下最後 ${group} 組
-//                 </p>
-//                 <p
-//                     class="flex items-center gap-1 font-medium text-primary"
-//                 >
-//                     <span>TWD</span>
-//                     <span class="text-[2rem]"> $${price} </span>
-//                 </p>
-//             </div>
-//         </div>
-//         <span
-//             class="absolute -top-2 left-0 bg-accent py-2 px-5 text-[1.25rem] text-white"
-//         >
-//             ${area}
-//         </span>
-//     </li>
-// `;
+//                     <li class="relative bg-white grid grid-rows-[auto,1fr]">
+//                         <img
+//                             src=${imgUrl}
+//                             alt=${name}
+//                             class="h-[180px] w-full object-cover"
+//                         />
+//                         <div class="relative grid grid-rows-[1fr,auto]  px-5 pt-5 pb-[14px]">
+//                             <span
+//                                 class="absolute top-0 left-0 -translate-y-1/2 bg-primary py-[5px] px-2 text-white"
+//                             >
+//                                 ${rate}
+//                             </span>
+//                             <div>
+//                                 <h2
+//                                     class="border-b-2 border-primary text-[1.5rem] font-medium text-primary mb-4"
+//                                 >
+//                                     ${name}
+//                                 </h2>
+//                                 <p class="text-dark-grey">${description}</p>
+//                             </div>
+//                             <div class="flex items-center justify-between">
+//                                 <p class="font-medium text-primary">
+//                                     剩下最後 ${group} 組
+//                                 </p>
+//                                 <p
+//                                     class="flex items-center gap-1 font-medium text-primary"
+//                                 >
+//                                     <span>TWD</span>
+//                                     <span class="text-[2rem]"> $${price} </span>
+//                                 </p>
+//                             </div>
+//                         </div>
+//                         <span
+//                             class="absolute -top-2 left-0 bg-accent py-2 px-5 text-[1.25rem] text-white"
+//                         >
+//                             ${area}
+//                         </span>
+//                     </li>
+//             `;
 //             })
 //             .join("");
 //     }
@@ -251,4 +260,4 @@ form.addEventListener("submit", function (e) {
 //     }
 // }
 
-// new App(data);
+// new App();
