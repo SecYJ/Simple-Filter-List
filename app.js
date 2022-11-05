@@ -106,8 +106,7 @@ const validation = (input) => {
 
 form.addEventListener("submit", function (e) {
     e.preventDefault();
-    const formData = new FormData(this);
-    const mapFormData = [...formData];
+    const mapFormData = [...new FormData(this)];
 
     if (mapFormData.length !== 7) return alert("请填写全部内容");
     const inputs = mapFormData.reduce((accumulator, current) => {
@@ -120,8 +119,6 @@ form.addEventListener("submit", function (e) {
 
     if (!viewpoint) {
         return alert("请选择地区");
-    } else if (mapFormData.length !== 7) {
-        return alert("请填写全部内容");
     } else if (isNaN(rate) || rate < 1 || rate > 10) {
         return alert("请输入有效的星級");
     } else if (!validation(price) || !validation(group)) {
@@ -152,8 +149,8 @@ render(data);
 
 //     #formSubmit(e) {
 //         e.preventDefault();
-//         const formData = new FormData(this.#form);
-//         const mapFormData = [...formData];
+//         const mapFormData = [...new FormData(this.#form)];
+//            if (mapFormData.length !== 7) return alert("请填写全部内容");
 //         const inputs = mapFormData.reduce((accumulator, current) => {
 //             const [key, val] = current;
 //             accumulator[key] = val.trim();
@@ -163,8 +160,6 @@ render(data);
 
 //         if (!viewpoint) {
 //             return alert("请选择地区");
-//         } else if (mapFormData.length !== 7) {
-//             return alert("请填写全部内容");
 //         } else if (isNaN(rate) || rate < 1 || rate > 10) {
 //             return alert("请输入有效的星級");
 //         } else if (!this.#validation(price) || !this.#validation(group)) {
