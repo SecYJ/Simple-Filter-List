@@ -36,6 +36,7 @@
 const area = document.querySelector("#area");
 const areaList = document.querySelector("#area-list");
 const form = document.querySelector("#form");
+let data = [];
 
 const render = (data) => {
     areaList.innerHTML = "";
@@ -94,12 +95,37 @@ const render = (data) => {
     ).innerText = `本次搜尋共 ${data.length} 筆資料`;
 };
 
+const renderChart = (data) => {
+    const areas = {};
+    data.forEach(({ area }) => (areas[area] = areas[area] + 1 || 1));
+
+    const configs = {
+        bindto: "#chart",
+        data: {
+            columns: Object.entries(areas).map(([key, val]) => [key, val]),
+            type: "donut",
+            labels: false,
+        },
+        color: {
+            pattern: ["#26C0C7", "#5151D3", "#E68618"],
+        },
+        donut: {
+            title: "套票地區比重",
+            expand: false,
+        },
+    };
+
+    c3.generate(configs);
+};
+
 const fetchData = async () => {
     const url =
         "https://raw.githubusercontent.com/hexschool/js-training/main/travelApi.json";
     const res = await axios.get(url);
     data = res.data?.data;
+
     render(data);
+    renderChart(data);
 };
 
 fetchData(); // 开始 fetch 资料
@@ -117,12 +143,15 @@ const validation = (input) => {
 form.addEventListener("submit", function (e) {
     e.preventDefault();
     const mapFormData = [...new FormData(this)];
-    if (mapFormData.length !== 7) return alert("请填写全部内容");
     const inputs = mapFormData.reduce((accumulator, current) => {
         const [key, val] = current;
+        if (val.trim() === "") return accumulator;
         accumulator[key] = val.trim();
         return accumulator;
     }, {});
+
+    if (mapFormData.length !== Object.keys(inputs).length)
+        return alert("请填写全部内容");
 
     const { rate, price, group, description } = inputs;
 
@@ -138,6 +167,7 @@ form.addEventListener("submit", function (e) {
 
     data.push({ ...inputs, area: inputs.viewpoint, id: data.length - 1 });
     render(data);
+    renderChart(data);
     this.reset();
 });
 
@@ -148,6 +178,7 @@ form.addEventListener("submit", function (e) {
 //     #url =
 //         "https://raw.githubusercontent.com/hexschool/js-training/main/travelApi.json";
 //     #data = [];
+//     #chart = document.querySelector("#chart");
 
 //     constructor() {
 //         this.#fetchData();
@@ -159,17 +190,24 @@ form.addEventListener("submit", function (e) {
 //         const res = await axios.get(this.#url);
 //         this.#data = [...res.data.data];
 //         this.#render(this.#data);
+//         this.#renderChart(this.#data);
 //     }
 
 //     #formSubmit(e) {
 //         e.preventDefault();
 //         const mapFormData = [...new FormData(this.#form)];
-//         if (mapFormData.length !== 7) return alert("请填写全部内容");
+
 //         const inputs = mapFormData.reduce((accumulator, current) => {
 //             const [key, val] = current;
+//             if (val.trim() === "") return accumulator;
 //             accumulator[key] = val.trim();
 //             return accumulator;
 //         }, {});
+
+//         if (mapFormData.length !== Object.keys(inputs).length) {
+//             return alert("请填写全部内容");
+//         }
+
 //         const { rate, price, group, description, viewpoint } = inputs;
 
 //         if (!viewpoint) {
@@ -182,12 +220,13 @@ form.addEventListener("submit", function (e) {
 //             return alert("文字不可超过 100");
 //         }
 
-//         this.#data.push({
+//         this.#data.unshift({
 //             ...inputs,
 //             area: inputs.viewpoint,
 //             id: this.#data.length - 1,
 //         });
 //         this.#render(this.#data);
+//         this.#renderChart(this.#data);
 //         this.#form.reset();
 //     }
 
@@ -201,7 +240,31 @@ form.addEventListener("submit", function (e) {
 //         return input.match(/\D/g) || input === "" ? false : true;
 //     }
 
-//     #mapHTML(data) {
+//     #renderChart(data) {
+//         this.#clearMarkup(this.#chart);
+//         const areas = {};
+//         data.forEach(({ area }) => (areas[area] = areas[area] + 1 || 1));
+
+//         const configs = {
+//             bindto: this.#chart,
+//             data: {
+//                 columns: Object.entries(areas).map(([key, val]) => [key, val]),
+//                 type: "donut",
+//                 labels: false,
+//             },
+//             color: {
+//                 pattern: ["#26C0C7", "#5151D3", "#E68618"],
+//             },
+//             donut: {
+//                 title: "套票地區比重",
+//                 expand: false,
+//             },
+//         };
+
+//         c3.generate(configs);
+//     }
+
+//     #regionMarkup(data) {
 //         return data
 //             .map((item) => {
 //                 const { name, imgUrl, description, group, price, rate, area } =
@@ -251,12 +314,19 @@ form.addEventListener("submit", function (e) {
 //             .join("");
 //     }
 
+//     #clearMarkup(element) {
+//         element.innerHTML = "";
+//     }
+
 //     #render(data) {
-//         this.#areaList.innerHTML = "";
-//         this.#areaList.insertAdjacentHTML("afterbegin", this.#mapHTML(data));
+//         this.#clearMarkup(this.#areaList);
+//         this.#areaList.insertAdjacentHTML(
+//             "afterbegin",
+//             this.#regionMarkup(data)
+//         );
 //         document.querySelector(
 //             "#found-data-amount"
-//         ).innerText = `本次搜尋共 ${data.length} 筆資料`;
+//         ).textContent = `本次搜尋共 ${data.length} 筆資料`;
 //     }
 // }
 
